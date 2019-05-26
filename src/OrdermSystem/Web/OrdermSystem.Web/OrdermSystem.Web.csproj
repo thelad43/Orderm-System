@@ -9,11 +9,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
 
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj" />
+    <ProjectReference Include="..\..\Common\OrdermSystem.Common.Sandbox\OrdermSystem.Common.Sandbox.csproj" />
     <ProjectReference Include="..\..\Data\OrdermSystem.Data\OrdermSystem.Data.csproj" />
     <ProjectReference Include="..\..\Services\OrdermSystem.Services\OrdermSystem.Services.csproj" />
   </ItemGroup>

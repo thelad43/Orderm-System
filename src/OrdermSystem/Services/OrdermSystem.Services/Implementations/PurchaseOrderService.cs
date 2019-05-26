@@ -1,6 +1,7 @@
 ﻿namespace OrdermSystem.Services.Implementations
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -20,6 +21,24 @@
         {
             this.db = db;
         }
+
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId)
+            => await this.db
+                .Purchases
+                .Where(c => c.Status != Status.Deleted)
+                .Where(c => c.CustomerId == customerId)
+                .OrderByDescending(c => c.CreatedOn)
+                .Skip((page - 1) * WebConstants.OrdersPerPage)
+                .Take(WebConstants.OrdersPerPage)
+                .To<TModel>()
+                .ToListAsync();
+
+        public async Task<int> CountByCustomerAsync(string customerId)
+            => await this.db
+                .Purchases
+                .Where(po => po.Status != Status.Deleted)
+                .Where(po => po.CustomerId == customerId)
+                .CountAsync();
 
         public async Task CreateAsync(string description, decimal price, int quantity, decimal totalAmount, string customerId)
         {
@@ -58,6 +77,11 @@
                 .Where(po => po.Id == id)
                 .To<TModel>()
                 .FirstOrDefaultAsync();
+
+        public async Task<PurchaseOrder> GetByIdAsync(string id)
+            => await this.db
+                .Purchases
+                .FirstOrDefaultAsync(po => po.Id == id);
 
         public async Task UpdateAsync(string id, string description, decimal price, int quantity, decimal totalAmount, Status status)
         {

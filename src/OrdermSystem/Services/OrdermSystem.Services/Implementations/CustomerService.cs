@@ -1,6 +1,7 @@
 ﻿namespace OrdermSystem.Services.Implementations
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -20,6 +21,22 @@
         {
             this.db = db;
         }
+
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page)
+            => await this.db
+                .Customers
+                .Where(c => c.Status != Status.Deleted)
+                .OrderByDescending(c => c.CreatedOn)
+                .Skip((page - 1) * WebConstants.CustomersPerPage)
+                .Take(WebConstants.CustomersPerPage)
+                .To<TModel>()
+                .ToListAsync();
+
+        public async Task<int> CountAsync()
+            => await this.db
+                .Customers
+                .Where(c => c.Status != Status.Deleted)
+                .CountAsync();
 
         public async Task CreateAsync(string firstName, string lastName, bool isMale, string phoneNumber)
         {
@@ -53,10 +70,15 @@
 
         public async Task<TModel> GetByIdAsync<TModel>(string id)
             => await this.db
+            .Customers
+            .Where(c => c.Id == id)
+            .To<TModel>()
+            .FirstOrDefaultAsync();
+
+        public async Task<Customer> GetByIdAsync(string id)
+            => await this.db
                 .Customers
-                .Where(c => c.Id == id)
-                .To<TModel>()
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(c => c.Id == id);
 
         public async Task<TModel> GetByNameAsync<TModel>(string firstName)
             => await this.db

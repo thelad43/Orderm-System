@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common", "Comm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common.Mapping", "Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj", "{DA3D7F76-6790-4165-9398-FDFE94956EEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common.Sandbox", "Common\OrdermSystem.Common.Sandbox\OrdermSystem.Common.Sandbox.csproj", "{E07740E2-56FA-4048-B333-E6A147DB5309}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{DA3D7F76-6790-4165-9398-FDFE94956EEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA3D7F76-6790-4165-9398-FDFE94956EEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA3D7F76-6790-4165-9398-FDFE94956EEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E07740E2-56FA-4048-B333-E6A147DB5309}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E07740E2-56FA-4048-B333-E6A147DB5309}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E07740E2-56FA-4048-B333-E6A147DB5309}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E07740E2-56FA-4048-B333-E6A147DB5309}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -78,6 +84,7 @@ Global
 		{4435FE58-EB06-4A91-BEA8-38D6AECC5507} = {FB8BD2D2-1BA4-4BFF-B973-C0B0BEE72273}
 		{04EE0AAD-6D42-4FC2-8ABB-0D6D09BA6FE6} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
 		{DA3D7F76-6790-4165-9398-FDFE94956EEE} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
+		{E07740E2-56FA-4048-B333-E6A147DB5309} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38AB86C4-9D4C-429B-A128-6A9817E830F7}

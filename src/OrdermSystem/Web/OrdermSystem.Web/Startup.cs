@@ -40,7 +40,10 @@
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 
             services
-                .AddMvc()
+                .AddMvc(options =>
+                {
+                    options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+                })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -66,6 +69,8 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // OrdermSystem.Common.Sandbox.Startup.SeedDatabase(app);
         }
     }
 }
