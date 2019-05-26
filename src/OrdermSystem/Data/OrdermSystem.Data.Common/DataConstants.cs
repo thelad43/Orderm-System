@@ -17,7 +17,7 @@
         public const int MinQuantity = 1;
         public const int MaxQuantity = int.MaxValue;
 
-        public const int MinAmount = 1;
-        public const int MaxAmount = int.MaxValue;
+        public const double MinAmount = 0;
+        public const double MaxAmount = double.MaxValue;
     }
 }

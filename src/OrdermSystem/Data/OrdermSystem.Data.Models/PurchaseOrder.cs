@@ -19,7 +19,7 @@
         public int Quantity { get; set; }
 
         [Range(MinAmount, MaxAmount)]
-        public int TotalAmount { get; set; }
+        public decimal TotalAmount { get; set; }
 
         public string CustomerId { get; set; }
 

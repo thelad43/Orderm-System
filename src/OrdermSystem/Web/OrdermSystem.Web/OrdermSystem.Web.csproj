@@ -13,7 +13,9 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj" />
     <ProjectReference Include="..\..\Data\OrdermSystem.Data\OrdermSystem.Data.csproj" />
+    <ProjectReference Include="..\..\Services\OrdermSystem.Services\OrdermSystem.Services.csproj" />
   </ItemGroup>
 
 </Project>
