@@ -2,7 +2,6 @@
 {
     using Microsoft.EntityFrameworkCore;
 
-    using OrdermSystem.Data.Common;
     using OrdermSystem.Data.Configurations;
     using OrdermSystem.Data.Models;
 
@@ -22,11 +21,6 @@
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
-            if (!builder.IsConfigured)
-            {
-                builder.UseSqlServer(DbConfiguration.ConnectionString);
-            }
-
             base.OnConfiguring(builder);
         }
 
