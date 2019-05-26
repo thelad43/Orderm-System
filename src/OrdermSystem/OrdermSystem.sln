@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data", "Data\O
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data.Configurations", "Data\OrdermSystem.Data.Configurations\OrdermSystem.Data.Configurations.csproj", "{129BF236-CAC6-4454-96F1-58189C431011}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B841357B-7AE9-4316-8854-731944E73B69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Web", "Web\OrdermSystem.Web\OrdermSystem.Web.csproj", "{5E7D89BA-FD94-4872-A318-EDF26C742D48}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{129BF236-CAC6-4454-96F1-58189C431011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{129BF236-CAC6-4454-96F1-58189C431011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{129BF236-CAC6-4454-96F1-58189C431011}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E7D89BA-FD94-4872-A318-EDF26C742D48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E7D89BA-FD94-4872-A318-EDF26C742D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E7D89BA-FD94-4872-A318-EDF26C742D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E7D89BA-FD94-4872-A318-EDF26C742D48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -44,6 +52,7 @@ Global
 		{F0E2EA28-D660-43F8-BABB-32C57D844382} = {C9EE284C-3082-4E43-8CA8-6DF35562C94D}
 		{AE306462-497E-478A-BDF6-C815A4310733} = {C9EE284C-3082-4E43-8CA8-6DF35562C94D}
 		{129BF236-CAC6-4454-96F1-58189C431011} = {C9EE284C-3082-4E43-8CA8-6DF35562C94D}
+		{5E7D89BA-FD94-4872-A318-EDF26C742D48} = {B841357B-7AE9-4316-8854-731944E73B69}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38AB86C4-9D4C-429B-A128-6A9817E830F7}
