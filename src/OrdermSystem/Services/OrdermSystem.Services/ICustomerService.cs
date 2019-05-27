@@ -8,7 +8,7 @@
 
     public interface ICustomerService
     {
-        Task<IEnumerable<TModel>> AllAsync<TModel>(int page);
+        Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string sort);
 
         Task CreateAsync(string firstName, string lastName, bool isMale, string phoneNumber);
 

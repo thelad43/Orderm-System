@@ -22,15 +22,54 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page)
-            => await this.db
-                .Customers
-                .Where(c => c.Status != Status.Deleted)
-                .OrderByDescending(c => c.CreatedOn)
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string sort)
+        {
+            var customers = this.db
+                  .Customers
+                  .Where(c => c.Status != Status.Deleted)
+                  .AsQueryable();
+
+            switch (sort)
+            {
+                case "firstname":
+                    customers = customers.OrderBy(c => c.FirstName);
+                    break;
+
+                case "lastname":
+                    customers = customers.OrderBy(c => c.LastName);
+                    break;
+
+                case "gender":
+                    customers = customers.OrderBy(c => c.IsMale);
+                    break;
+
+                case "phonenumber":
+                    customers = customers.OrderBy(c => c.PhoneNumber);
+                    break;
+
+                case "createdon":
+                    customers = customers.OrderBy(c => c.CreatedOn);
+                    break;
+
+                case "status":
+                    customers = customers.OrderBy(c => c.Status);
+                    break;
+
+                default:
+                    return await customers
+                        .OrderByDescending(c => c.CreatedOn)
+                        .Skip((page - 1) * WebConstants.CustomersPerPage)
+                        .Take(WebConstants.CustomersPerPage)
+                        .To<TModel>()
+                        .ToListAsync();
+            }
+
+            return await customers
                 .Skip((page - 1) * WebConstants.CustomersPerPage)
                 .Take(WebConstants.CustomersPerPage)
                 .To<TModel>()
                 .ToListAsync();
+        }
 
         public async Task<int> CountAsync()
             => await this.db

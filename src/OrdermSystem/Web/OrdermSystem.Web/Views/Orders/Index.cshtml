@@ -8,59 +8,62 @@
 <h2>@ViewData["Title"]</h2>
 <br />
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Description</th>
-            <th scope="col">Created On</th>
-            <th scope="col">Price</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Total Amount</th>
-            <th scope="col">Status</th>
-            <th scope="col">Activate/Deactivate</th>
-            <th scope="col">Delete</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var order in Model.Orders)
-        {
-            var status = order.Status;
-
-            var btnStatusClass = string.Empty;
-            var btnText = string.Empty;
-
-            if (status == Status.Active)
+@if (Model.Orders.Any())
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Description</th>
+                <th scope="col">Created On</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Amount</th>
+                <th scope="col">Status</th>
+                <th scope="col">Activate/Deactivate</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model.Orders)
             {
-                btnStatusClass = "btn btn-secondary";
-                btnText = "Deactivate";
-            }
-            else
-            {
-                btnStatusClass = "btn btn-primary";
-                btnText = "Activate";
-            }
+                var status = order.Status;
 
-        <tr>
-            <th scope="row">@(number++ + (Model.CurrentPage - 1) * WebConstants.OrdersPerPage)</th>
-            <td>@order.Description</td>
-            <td>@order.CreatedOn.ToShortDateString()</td>
-            <td>$ @order.Price</td>
-            <td>@order.Quantity</td>
-            <td>$ @order.TotalAmount</td>
-            <td>@order.Status</td>
-            <td>
-                <form asp-area="" asp-controller="Orders" asp-action="@btnText" asp-route-id="@order.Id" method="post">
-                    <button class="@btnStatusClass">@btnText</button>
-                </form>
-            </td>
-            <td>
-                <form asp-area="" asp-controller="Orders" asp-action="Delete" asp-route-id="@order.Id" method="post"><button class="btn btn-danger" type="submit">Delete</button></form>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+                var btnStatusClass = string.Empty;
+                var btnText = string.Empty;
+
+                if (status == Status.Active)
+                {
+                    btnStatusClass = "btn btn-secondary";
+                    btnText = "Deactivate";
+                }
+                else
+                {
+                    btnStatusClass = "btn btn-primary";
+                    btnText = "Activate";
+                }
+
+                <tr>
+                    <th scope="row">@(number++ + (Model.CurrentPage - 1) * WebConstants.OrdersPerPage)</th>
+                    <td>@order.Description</td>
+                    <td>@order.CreatedOn.ToShortDateString()</td>
+                    <td>$ @order.Price</td>
+                    <td>@order.Quantity</td>
+                    <td>$ @order.TotalAmount</td>
+                    <td>@order.Status</td>
+                    <td><form asp-area="" asp-controller="Orders" asp-action="@btnText" asp-route-id="@order.Id" method="post"><button class="@btnStatusClass">@btnText</button></form></td>
+                    <td><form asp-area="" asp-controller="Orders" asp-action="Delete" asp-route-id="@order.Id" method="post"><button class="btn btn-danger" type="submit">Delete</button></form></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="alert alert-light" role="alert">
+        @Model.CustomerName doesn't have any orders yet
+    </div>
+}
 
 <nav>
     <ul class="pagination justify-content-center">
