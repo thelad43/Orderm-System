@@ -22,16 +22,55 @@
             this.db = db;
         }
 
-        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId)
-            => await this.db
-                .Purchases
-                .Where(c => c.Status != Status.Deleted)
-                .Where(c => c.CustomerId == customerId)
-                .OrderByDescending(c => c.CreatedOn)
-                .Skip((page - 1) * WebConstants.OrdersPerPage)
-                .Take(WebConstants.OrdersPerPage)
-                .To<TModel>()
-                .ToListAsync();
+        public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId, string sort)
+        {
+            var orders = this.db
+                   .Purchases
+                   .Where(c => c.Status != Status.Deleted)
+                   .Where(c => c.CustomerId == customerId)
+                   .AsQueryable();
+
+            switch (sort)
+            {
+                case "description":
+                    orders = orders.OrderBy(po => po.Description);
+                    break;
+
+                case "createdon":
+                    orders = orders.OrderBy(po => po.CreatedOn);
+                    break;
+
+                case "price":
+                    orders = orders.OrderBy(po => po.Price);
+                    break;
+
+                case "quantity":
+                    orders = orders.OrderBy(po => po.Quantity);
+                    break;
+
+                case "totalamount":
+                    orders = orders.OrderBy(po => po.TotalAmount);
+                    break;
+
+                case "status":
+                    orders = orders.OrderBy(po => po.Status);
+                    break;
+
+                default:
+                    return await orders
+                        .OrderByDescending(c => c.CreatedOn)
+                        .Skip((page - 1) * WebConstants.OrdersPerPage)
+                        .Take(WebConstants.OrdersPerPage)
+                        .To<TModel>()
+                        .ToListAsync();
+            }
+
+            return await orders
+                   .Skip((page - 1) * WebConstants.OrdersPerPage)
+                   .Take(WebConstants.OrdersPerPage)
+                   .To<TModel>()
+                   .ToListAsync();
+        }
 
         public async Task<int> CountByCustomerAsync(string customerId)
             => await this.db

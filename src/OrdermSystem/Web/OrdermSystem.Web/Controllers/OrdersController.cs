@@ -23,9 +23,13 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(string customerId, int id = 1)
+        public async Task<IActionResult> Index(string customerId, string sort = null, int id = 1)
         {
-            var orders = await this.orders.AllAsync<OrderViewModel>(id, customerId);
+            sort = sort ?? string.Empty;
+
+            ViewData[WebConstants.ViewDataSortKey] = sort;
+
+            var orders = await this.orders.AllAsync<OrderViewModel>(id, customerId, sort.ToLower());
 
             var ordersCount = await this.orders.CountByCustomerAsync(customerId);
 

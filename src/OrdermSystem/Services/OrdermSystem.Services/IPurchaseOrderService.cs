@@ -8,7 +8,7 @@
 
     public interface IPurchaseOrderService
     {
-        Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId);
+        Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId, string sort);
 
         Task CreateAsync(string description, decimal price, int quantity, decimal totalAmount, string customerId);
 

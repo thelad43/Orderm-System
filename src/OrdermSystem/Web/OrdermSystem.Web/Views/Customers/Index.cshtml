@@ -1,9 +1,15 @@
 ﻿@model CustomersListingViewModel
 
 @{
-    ViewData["Title"] = "All customers";
+    var sortMessage = string.Empty;
+
+    if ((string)ViewData[WebConstants.ViewDataSortKey] != string.Empty)
+    {
+        sortMessage = $" sorted by {ViewData[WebConstants.ViewDataSortKey]}";
+    }
+
+    ViewData["Title"] = "All customers" + sortMessage;
     var number = 1;
-    var sort = string.Empty;
 }
 
 <h2>@ViewData["Title"]</h2>

@@ -1,7 +1,14 @@
 ﻿@model OrdersListingViewModel
 
 @{
-    ViewData["Title"] = $"All orders for {Model.CustomerName}";
+    var sortMessage = string.Empty;
+
+    if ((string)ViewData[WebConstants.ViewDataSortKey] != string.Empty)
+    {
+        sortMessage = $" sorted by {ViewData[WebConstants.ViewDataSortKey]}";
+    }
+
+    ViewData["Title"] = $"All orders for {Model.CustomerName}" + sortMessage;
     var number = 1;
 }
 
@@ -10,6 +17,23 @@
 
 @if (Model.Orders.Any())
 {
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+        </button>
+        <div class="dropdown-menu">
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="Description" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Description</a>
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="CreatedOn" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Created On</a>
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="Price" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Price</a>
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="Quantity" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Quantity</a>
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="TotalAmount" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Total Amount</a>
+            <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-sort="Status" asp-route-customerId="@Model.CustomerId" class="dropdown-item">Status</a>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
     <table class="table table-hover">
         <thead>
             <tr>
@@ -70,7 +94,7 @@ else
         @if (Model.CurrentPage > 1)
         {
             <li class="page-item">
-                <a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@Model.PreviousPage" asp-route-customerId="@Model.CustomerId" aria-label="Previous">
+                <a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@Model.PreviousPage" asp-route-customerId="@Model.CustomerId" asp-route-sort="@ViewData[WebConstants.ViewDataSortKey]" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -120,16 +144,16 @@ else
 
             if (i > 0 && pageNumber - 1 != pagesToShow[i - 1])
             {
-                <li class="page-item @className"><a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@(pagesToShow[i - 1] + 1)" asp-route-customerId="@Model.CustomerId">...</a></li>
+                <li class="page-item @className"><a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@(pagesToShow[i - 1] + 1)" asp-route-customerId="@Model.CustomerId" asp-route-sort="@ViewData[WebConstants.ViewDataSortKey]">...</a></li>
             }
 
-            <li class="page-item @className"><a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@pageNumber" asp-route-customerId="@Model.CustomerId">@pageNumber</a></li>
+            <li class="page-item @className"><a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@pageNumber" asp-route-customerId="@Model.CustomerId" asp-route-sort="@ViewData[WebConstants.ViewDataSortKey]">@pageNumber</a></li>
         }
 
         @if (Model.CurrentPage < Model.PagesCount)
         {
             <li class="page-item">
-                <a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@Model.NextPage" asp-route-customerId="@Model.CustomerId" aria-label="Next">
+                <a class="page-link" asp-area="" asp-controller="Orders" asp-action="Index" asp-route-id="@Model.NextPage" asp-route-customerId="@Model.CustomerId" asp-route-sort="@ViewData[WebConstants.ViewDataSortKey]" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
