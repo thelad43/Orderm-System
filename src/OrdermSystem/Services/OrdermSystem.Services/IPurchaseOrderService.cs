@@ -10,7 +10,7 @@
     {
         Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId, string sort);
 
-        Task CreateAsync(string description, decimal price, int quantity, decimal totalAmount, string customerId);
+        Task CreateAsync(string description, decimal price, int quantity, string customerId);
 
         Task<TModel> GetByIdAsync<TModel>(string id);
 

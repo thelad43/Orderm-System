@@ -79,14 +79,14 @@
                 .Where(po => po.CustomerId == customerId)
                 .CountAsync();
 
-        public async Task CreateAsync(string description, decimal price, int quantity, decimal totalAmount, string customerId)
+        public async Task CreateAsync(string description, decimal price, int quantity, string customerId)
         {
             var purchaseOrder = new PurchaseOrder
             {
                 Description = description,
                 Price = price,
                 Quantity = quantity,
-                TotalAmount = totalAmount,
+                TotalAmount = price * quantity,
                 CustomerId = customerId,
                 Status = Status.Active,
                 CreatedOn = DateTime.UtcNow

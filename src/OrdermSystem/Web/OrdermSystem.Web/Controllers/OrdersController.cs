@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     using OrdermSystem.Common;
@@ -16,7 +16,9 @@
         private readonly IPurchaseOrderService orders;
         private readonly ICustomerService customers;
 
-        public OrdersController(IPurchaseOrderService orders, ICustomerService customers)
+        public OrdersController(
+            IPurchaseOrderService orders,
+            ICustomerService customers)
         {
             this.orders = orders;
             this.customers = customers;
@@ -106,6 +108,26 @@
                  nameof(Index),
                  nameof(OrdersController),
                  new { customerId = order.CustomerId });
+        }
+
+        [HttpGet]
+        public IActionResult Create(string customerId) => View(new OrderBaseModel { CustomerId = customerId });
+
+        [HttpPost]
+        public async Task<IActionResult> Create(OrderBaseModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await this.orders.CreateAsync(model.Description, model.Price, model.Quantity, model.CustomerId);
+
+            TempData.AddSuccessMessage("Successfully created new order!");
+
+            return this.RedirectToCustomAction(
+                nameof(Index),
+                nameof(OrdersController), new { customerId = model.CustomerId });
         }
     }
 }

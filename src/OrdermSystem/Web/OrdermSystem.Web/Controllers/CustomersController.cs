@@ -97,7 +97,7 @@
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerFormViewModel model)
+        public async Task<IActionResult> Create(CustomerBaseModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -107,6 +107,36 @@
             await this.customers.CreateAsync(model.FirstName, model.LastName, model.IsMale, model.PhoneNumber);
 
             TempData.AddSuccessMessage("Successfully created new customer!");
+
+            return this.RedirectToCustomAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var customer = await this.customers.GetByIdAsync<CustomerBaseModel>(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CustomerBaseModel model)
+        {
+            var customer = await this.customers.GetByIdAsync(model.Id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            await this.customers.UpdateAsync(model.Id, model.FirstName, model.LastName, model.PhoneNumber, customer.Status);
+
+            TempData.AddSuccessMessage($"Successfully updated customer {model.FirstName}!");
 
             return this.RedirectToCustomAction(nameof(Index));
         }

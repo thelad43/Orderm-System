@@ -6,8 +6,10 @@
 
     using static OrdermSystem.Data.Common.DataConstants;
 
-    public class CustomerFormViewModel
+    public class CustomerBaseModel
     {
+        public string Id { get; set; }
+
         [Required]
         [MinLength(FirstNameMinLength)]
         [MaxLength(FirstNameMaxLength)]

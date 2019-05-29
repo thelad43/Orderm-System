@@ -44,8 +44,6 @@
                 <div class="alert alert-success">
                     @TempData[WebConstants.TempDataSuccessMessageKey]
                 </div>
-                <br />
-                <br />
             }
 
             @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
@@ -53,9 +51,8 @@
                 <div class="alert alert-danger">
                     @TempData[WebConstants.TempDataErrorMessageKey]
                 </div>
-                <br />
-                <br />
             }
+
             @RenderBody()
         </main>
     </div>
