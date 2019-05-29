@@ -92,5 +92,23 @@
 
             return this.RedirectToCustomAction(nameof(Index), nameof(CustomersController));
         }
+
+        [HttpGet]
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CustomerFormViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await this.customers.CreateAsync(model.FirstName, model.LastName, model.IsMale, model.PhoneNumber);
+
+            TempData.AddSuccessMessage("Successfully created new customer!");
+
+            return this.RedirectToCustomAction(nameof(Index));
+        }
     }
 }

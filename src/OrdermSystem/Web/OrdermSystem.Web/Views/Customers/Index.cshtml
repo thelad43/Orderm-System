@@ -17,19 +17,25 @@
 
 @if (Model.Customers.Any())
 {
-    <div class="btn-group">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Sort by
-        </button>
-        <div class="dropdown-menu">
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="FirstName" class="dropdown-item">First Name</a>
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="LastName" class="dropdown-item">Last Name</a>
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Gender" class="dropdown-item">Gender</a>
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="PhoneNumber" class="dropdown-item">Phone Number</a>
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="CreatedOn" class="dropdown-item">Created On</a>
-            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Status" class="dropdown-item">Status</a>
-        </div>
+<div class="btn-group">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Sort by
+    </button>
+    <div class="dropdown-menu">
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="FirstName" class="dropdown-item">First Name</a>
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="LastName" class="dropdown-item">Last Name</a>
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Gender" class="dropdown-item">Gender</a>
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="PhoneNumber" class="dropdown-item">Phone Number</a>
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="CreatedOn" class="dropdown-item">Created On</a>
+        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Status" class="dropdown-item">Status</a>
     </div>
+
+    <div class="row">
+        <div class="col-md-2"></div>
+        <a asp-area="" asp-controller="Customers" asp-action="Create" class="btn btn-outline-primary">Create</a>
+    </div>
+
+</div>
 
     <br />
     <br />
