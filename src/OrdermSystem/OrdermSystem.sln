@@ -5,29 +5,33 @@ VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{C9EE284C-3082-4E43-8CA8-6DF35562C94D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data.Models", "Data\OrdermSystem.Data.Models\OrdermSystem.Data.Models.csproj", "{8109792D-DDC0-473B-8837-1DBE85EBA486}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Data.Models", "Data\OrdermSystem.Data.Models\OrdermSystem.Data.Models.csproj", "{8109792D-DDC0-473B-8837-1DBE85EBA486}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data.Common", "Data\OrdermSystem.Data.Common\OrdermSystem.Data.Common.csproj", "{F0E2EA28-D660-43F8-BABB-32C57D844382}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Data.Common", "Data\OrdermSystem.Data.Common\OrdermSystem.Data.Common.csproj", "{F0E2EA28-D660-43F8-BABB-32C57D844382}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data", "Data\OrdermSystem.Data\OrdermSystem.Data.csproj", "{AE306462-497E-478A-BDF6-C815A4310733}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Data", "Data\OrdermSystem.Data\OrdermSystem.Data.csproj", "{AE306462-497E-478A-BDF6-C815A4310733}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Data.Configurations", "Data\OrdermSystem.Data.Configurations\OrdermSystem.Data.Configurations.csproj", "{129BF236-CAC6-4454-96F1-58189C431011}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Data.Configurations", "Data\OrdermSystem.Data.Configurations\OrdermSystem.Data.Configurations.csproj", "{129BF236-CAC6-4454-96F1-58189C431011}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B841357B-7AE9-4316-8854-731944E73B69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Web", "Web\OrdermSystem.Web\OrdermSystem.Web.csproj", "{5E7D89BA-FD94-4872-A318-EDF26C742D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Web", "Web\OrdermSystem.Web\OrdermSystem.Web.csproj", "{5E7D89BA-FD94-4872-A318-EDF26C742D48}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{FB8BD2D2-1BA4-4BFF-B973-C0B0BEE72273}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Services", "Services\OrdermSystem.Services\OrdermSystem.Services.csproj", "{4435FE58-EB06-4A91-BEA8-38D6AECC5507}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Services", "Services\OrdermSystem.Services\OrdermSystem.Services.csproj", "{4435FE58-EB06-4A91-BEA8-38D6AECC5507}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common", "Common\OrdermSystem.Common\OrdermSystem.Common.csproj", "{04EE0AAD-6D42-4FC2-8ABB-0D6D09BA6FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Common", "Common\OrdermSystem.Common\OrdermSystem.Common.csproj", "{04EE0AAD-6D42-4FC2-8ABB-0D6D09BA6FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common.Mapping", "Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj", "{DA3D7F76-6790-4165-9398-FDFE94956EEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Common.Mapping", "Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj", "{DA3D7F76-6790-4165-9398-FDFE94956EEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Common.Sandbox", "Common\OrdermSystem.Common.Sandbox\OrdermSystem.Common.Sandbox.csproj", "{E07740E2-56FA-4048-B333-E6A147DB5309}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OrdermSystem.Common.Sandbox", "Common\OrdermSystem.Common.Sandbox\OrdermSystem.Common.Sandbox.csproj", "{E07740E2-56FA-4048-B333-E6A147DB5309}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{43F572E5-EE3E-4F24-9659-7610BF4E0705}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrdermSystem.Tests", "Tests\OrdermSystem.Tests\OrdermSystem.Tests.csproj", "{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,10 @@ Global
 		{E07740E2-56FA-4048-B333-E6A147DB5309}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E07740E2-56FA-4048-B333-E6A147DB5309}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E07740E2-56FA-4048-B333-E6A147DB5309}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +93,7 @@ Global
 		{04EE0AAD-6D42-4FC2-8ABB-0D6D09BA6FE6} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
 		{DA3D7F76-6790-4165-9398-FDFE94956EEE} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
 		{E07740E2-56FA-4048-B333-E6A147DB5309} = {F13E0FA9-595A-4F9C-967B-3F7EF4E701BD}
+		{A5D7ACF8-58E7-47A9-BA18-9C51047C54CB} = {43F572E5-EE3E-4F24-9659-7610BF4E0705}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {38AB86C4-9D4C-429B-A128-6A9817E830F7}
