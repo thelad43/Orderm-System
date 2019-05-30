@@ -12,6 +12,7 @@
     using OrdermSystem.Data;
     using OrdermSystem.Services;
     using OrdermSystem.Services.Implementations;
+    using OrdermSystem.Web.Infrastructure.Extensions;
 
     public class Startup
     {
@@ -35,6 +36,10 @@
                     .UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection")));
 
             AutoMapperConfig.RegisterMappings(typeof(IService).Assembly);
+
+            services.AddResponseCompression();
+
+            services.AddRouting(options => options.LowercaseUrls = true);
 
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
@@ -60,8 +65,11 @@
             }
 
             app.UseHttpsRedirection();
+            app.UseResponseCompression();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseDatabaseMigration();
 
             app.UseMvc(routes =>
             {

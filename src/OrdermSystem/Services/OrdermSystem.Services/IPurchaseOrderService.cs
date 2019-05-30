@@ -16,7 +16,7 @@
 
         Task<PurchaseOrder> GetByIdAsync(string id);
 
-        Task UpdateAsync(string id, string description, decimal price, int quantity, decimal totalAmount, Status status);
+        Task UpdateAsync(string id, string description, decimal price, int quantity, Status status);
 
         Task DeleteAsync(string id);
 

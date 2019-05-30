@@ -2,11 +2,13 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using OrdermSystem.Common.Mapping;
+    using OrdermSystem.Data.Models;
     using OrdermSystem.Data.Models.Enums;
 
     using static OrdermSystem.Data.Common.DataConstants;
 
-    public class CustomerBaseModel
+    public class CustomerBaseViewModel : IMapFrom<Customer>
     {
         public string Id { get; set; }
 

@@ -5,7 +5,7 @@
     using OrdermSystem.Common.Mapping;
     using OrdermSystem.Data.Models;
 
-    public class CustomerViewModel : CustomerBaseModel, IMapFrom<Customer> 
+    public class CustomerViewModel : CustomerBaseViewModel, IMapFrom<Customer> 
     {
         public DateTime CreatedOn { get; set; }
     }

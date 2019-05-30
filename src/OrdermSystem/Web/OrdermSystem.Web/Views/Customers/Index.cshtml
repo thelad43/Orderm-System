@@ -17,25 +17,25 @@
 
 @if (Model.Customers.Any())
 {
-<div class="btn-group">
-    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Sort by
-    </button>
-    <div class="dropdown-menu">
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="FirstName" class="dropdown-item">First Name</a>
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="LastName" class="dropdown-item">Last Name</a>
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Gender" class="dropdown-item">Gender</a>
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="PhoneNumber" class="dropdown-item">Phone Number</a>
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="CreatedOn" class="dropdown-item">Created On</a>
-        <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Status" class="dropdown-item">Status</a>
-    </div>
-    <div class="row">
-        <div class="col-md-1"></div>
-        <div class="col-md-1">
-            <a asp-area="" asp-controller="Customers" asp-action="Create" class="btn btn-outline-primary">Create</a>
+    <div class="btn-group">
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort by
+        </button>
+        <div class="dropdown-menu">
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="FirstName" class="dropdown-item">First Name</a>
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="LastName" class="dropdown-item">Last Name</a>
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Gender" class="dropdown-item">Gender</a>
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="PhoneNumber" class="dropdown-item">Phone Number</a>
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="CreatedOn" class="dropdown-item">Created On</a>
+            <a asp-area="" asp-controller="Customers" asp-action="Index" asp-route-sort="Status" class="dropdown-item">Status</a>
+        </div>
+        <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-1">
+                <a asp-area="" asp-controller="Customers" asp-action="Create" class="btn btn-outline-primary">Create</a>
+            </div>
         </div>
     </div>
-</div>
 
     <br />
     <br />
@@ -47,7 +47,7 @@
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
                 <th scope="col">Gender</th>
-                <th scope="col">Phone Number</th>
+                <th scope="col">Phone</th>
                 <th scope="col">Created On</th>
                 <th scope="col">Status</th>
                 <th scope="col">Activate/Deactivate</th>
@@ -75,27 +75,31 @@
                     btnText = "Activate";
                 }
 
-            <tr>
-                <th scope="row">@(number++ + (Model.CurrentPage - 1) * WebConstants.CustomersPerPage)</th>
-                <td>@customer.FirstName</td>
-                <td>@customer.LastName</td>
-                <td>@(customer.IsMale ? "Male" : "Female")</td>
-                <td>@customer.PhoneNumber</td>
-                <td>@customer.CreatedOn.ToShortDateString()</td>
-                <td>@status</td>
-                <td>
-                    <form asp-area="" asp-controller="Customers" asp-action="@btnText" asp-route-id="@customer.Id" method="post"><button class="@btnStatusClass" type="submit">@btnText</button></form>
-                </td>
-                <td>
-                    <form asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id="@customer.Id" method="get"><button class="btn btn-outline-warning" type="submit">Edit</button></form>
-                </td>
-                <td>
-                    <form asp-area="" asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.Id" method="post"><button class="btn btn-outline-danger" type="submit">Delete</button></form>
-                </td>
-                <td>
-                    <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-customerId="@customer.Id" class="btn btn-outline-info">Orders</a>
-                </td>
-            </tr>
+                <tr>
+                    <th scope="row">@(number++ + (Model.CurrentPage - 1) * WebConstants.CustomersPerPage)</th>
+                    <td>@customer.FirstName</td>
+                    <td>@customer.LastName</td>
+                    <td>@(customer.IsMale ? "Male" : "Female")</td>
+                    <td>@customer.PhoneNumber</td>
+                    <td>@customer.CreatedOn.ToShortDateString()</td>
+                    <td>@status</td>
+                    <td>
+                        <form asp-area="" asp-controller="Customers" asp-action="@btnText" asp-route-id="@customer.Id" method="post">
+                            <button class="@btnStatusClass" type="submit">@btnText</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-area="" asp-controller="Customers" asp-action="Edit" asp-route-id="@customer.Id" class="btn btn-outline-warning">Edit</a>
+                    </td>
+                    <td>
+                        <form asp-area="" asp-controller="Customers" asp-action="Delete" asp-route-id="@customer.Id" method="post">
+                            <button class="btn btn-outline-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                    <td>
+                        <a asp-area="" asp-controller="Orders" asp-action="Index" asp-route-customerId="@customer.Id" class="btn btn-outline-info">Orders</a>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

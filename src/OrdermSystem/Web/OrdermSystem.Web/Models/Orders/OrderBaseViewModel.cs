@@ -2,9 +2,12 @@
 {
     using System.ComponentModel.DataAnnotations;
 
+    using OrdermSystem.Common.Mapping;
+    using OrdermSystem.Data.Models;
+
     using static OrdermSystem.Data.Common.DataConstants;
 
-    public class OrderBaseModel
+    public class OrderBaseViewModel : IMapFrom<PurchaseOrder>
     {
         [Required]
         public string Description { get; set; }

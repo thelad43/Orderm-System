@@ -2,9 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
 
+    using Microsoft.AspNetCore.Mvc;
+    
     using OrdermSystem.Common;
     using OrdermSystem.Data.Models.Enums;
     using OrdermSystem.Services;
@@ -16,9 +16,7 @@
         private readonly IPurchaseOrderService orders;
         private readonly ICustomerService customers;
 
-        public OrdersController(
-            IPurchaseOrderService orders,
-            ICustomerService customers)
+        public OrdersController(IPurchaseOrderService orders, ICustomerService customers)
         {
             this.orders = orders;
             this.customers = customers;
@@ -60,7 +58,7 @@
                 return NotFound();
             }
 
-            await this.orders.UpdateAsync(id, order.Description, order.Price, order.Quantity, order.TotalAmount, Status.Active);
+            await this.orders.UpdateAsync(id, order.Description, order.Price, order.Quantity, Status.Active);
 
             TempData.AddSuccessMessage("Status successfully changed to active!");
 
@@ -80,7 +78,7 @@
                 return NotFound();
             }
 
-            await this.orders.UpdateAsync(id, order.Description, order.Price, order.Quantity, order.TotalAmount, Status.Inactive);
+            await this.orders.UpdateAsync(id, order.Description, order.Price, order.Quantity, Status.Inactive);
 
             TempData.AddSuccessMessage("Status successfully changed to inactive!");
 
@@ -111,10 +109,14 @@
         }
 
         [HttpGet]
-        public IActionResult Create(string customerId) => View(new OrderBaseModel { CustomerId = customerId });
+        public IActionResult Create(string customerId)
+            => View(new OrderBaseViewModel
+            {
+                CustomerId = customerId
+            });
 
         [HttpPost]
-        public async Task<IActionResult> Create(OrderBaseModel model)
+        public async Task<IActionResult> Create(OrderBaseViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -128,6 +130,39 @@
             return this.RedirectToCustomAction(
                 nameof(Index),
                 nameof(OrdersController), new { customerId = model.CustomerId });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var order = await this.orders.GetByIdAsync<OrderEditViewModel>(id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(OrderEditViewModel model)
+        {
+            var order = await this.orders.GetByIdAsync(model.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            await this.orders.UpdateAsync(model.Id, model.Description, model.Price, model.Quantity, order.Status);
+
+            TempData.AddSuccessMessage($"Successfully updated order!");
+
+            return this.RedirectToCustomAction(
+                nameof(Index),
+                nameof(OrdersController),
+                new { customerId = order.CustomerId });
         }
     }
 }

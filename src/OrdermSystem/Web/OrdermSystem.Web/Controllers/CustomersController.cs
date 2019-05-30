@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
-
+ 
     using OrdermSystem.Common;
     using OrdermSystem.Data.Models.Enums;
     using OrdermSystem.Services;
@@ -97,7 +97,7 @@
         public IActionResult Create() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Create(CustomerBaseModel model)
+        public async Task<IActionResult> Create(CustomerBaseViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -114,7 +114,7 @@
         [HttpGet]
         public async Task<IActionResult> Edit(string id)
         {
-            var customer = await this.customers.GetByIdAsync<CustomerBaseModel>(id);
+            var customer = await this.customers.GetByIdAsync<CustomerBaseViewModel>(id);
 
             if (customer == null)
             {
@@ -125,7 +125,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CustomerBaseModel model)
+        public async Task<IActionResult> Edit(CustomerBaseViewModel model)
         {
             var customer = await this.customers.GetByIdAsync(model.Id);
 

@@ -6,7 +6,7 @@
     using OrdermSystem.Data.Models;
     using OrdermSystem.Data.Models.Enums;
 
-    public class OrderViewModel : OrderBaseModel, IMapFrom<PurchaseOrder>
+    public class OrderViewModel : OrderBaseViewModel, IMapFrom<PurchaseOrder>
     {
         public string Id { get; set; }
 

@@ -122,7 +122,7 @@
                 .Purchases
                 .FirstOrDefaultAsync(po => po.Id == id);
 
-        public async Task UpdateAsync(string id, string description, decimal price, int quantity, decimal totalAmount, Status status)
+        public async Task UpdateAsync(string id, string description, decimal price, int quantity, Status status)
         {
             var order = await this.GetPurchaseOrderById(id);
 
@@ -134,7 +134,7 @@
             order.Description = description;
             order.Price = price;
             order.Quantity = quantity;
-            order.TotalAmount = totalAmount;
+            order.TotalAmount = price * quantity;
             order.Status = status;
 
             await this.db.SaveChangesAsync();
