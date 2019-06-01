@@ -12,14 +12,17 @@
     using OrdermSystem.Data;
     using OrdermSystem.Data.Models;
     using OrdermSystem.Data.Models.Enums;
+    using OrdermSystem.Services.SortHelpers;
 
     public class CustomerService : ICustomerService
     {
         private readonly ApplicationDbContext db;
+        private readonly ISortStrategyParser strategyParser;
 
-        public CustomerService(ApplicationDbContext db)
+        public CustomerService(ApplicationDbContext db, ISortStrategyParser strategyParser)
         {
             this.db = db;
+            this.strategyParser = strategyParser;
         }
 
         public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string sort)
@@ -29,40 +32,19 @@
                   .Where(c => c.Status != Status.Deleted)
                   .AsQueryable();
 
-            switch (sort)
+            var sortStrategy = this.strategyParser.Parse<Customer>(sort);
+
+            if (sortStrategy == null)
             {
-                case "firstname":
-                    customers = customers.OrderBy(c => c.FirstName);
-                    break;
-
-                case "lastname":
-                    customers = customers.OrderBy(c => c.LastName);
-                    break;
-
-                case "gender":
-                    customers = customers.OrderBy(c => c.IsMale);
-                    break;
-
-                case "phonenumber":
-                    customers = customers.OrderBy(c => c.PhoneNumber);
-                    break;
-
-                case "createdon":
-                    customers = customers.OrderBy(c => c.CreatedOn);
-                    break;
-
-                case "status":
-                    customers = customers.OrderBy(c => c.Status);
-                    break;
-
-                default:
-                    return await customers
-                        .OrderByDescending(c => c.CreatedOn)
-                        .Skip((page - 1) * WebConstants.CustomersPerPage)
-                        .Take(WebConstants.CustomersPerPage)
-                        .To<TModel>()
-                        .ToListAsync();
+                return await customers
+                    .OrderByDescending(c => c.CreatedOn)
+                    .Skip((page - 1) * WebConstants.CustomersPerPage)
+                    .Take(WebConstants.CustomersPerPage)
+                    .To<TModel>()
+                    .ToListAsync();
             }
+
+            customers = sortStrategy.Sort(customers);
 
             return await customers
                 .Skip((page - 1) * WebConstants.CustomersPerPage)

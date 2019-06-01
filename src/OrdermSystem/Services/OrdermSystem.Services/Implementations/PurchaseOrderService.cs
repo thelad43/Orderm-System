@@ -12,14 +12,17 @@
     using OrdermSystem.Data;
     using OrdermSystem.Data.Models;
     using OrdermSystem.Data.Models.Enums;
+    using OrdermSystem.Services.SortHelpers;
 
     public class PurchaseOrderService : IPurchaseOrderService
     {
         private readonly ApplicationDbContext db;
+        private readonly ISortStrategyParser strategyParser;
 
-        public PurchaseOrderService(ApplicationDbContext db)
+        public PurchaseOrderService(ApplicationDbContext db, ISortStrategyParser strategyParser)
         {
             this.db = db;
+            this.strategyParser = strategyParser;
         }
 
         public async Task<IEnumerable<TModel>> AllAsync<TModel>(int page, string customerId, string sort)
@@ -30,40 +33,19 @@
                    .Where(c => c.CustomerId == customerId)
                    .AsQueryable();
 
-            switch (sort)
+            var sortStrategy = this.strategyParser.Parse<PurchaseOrder>(sort);
+
+            if (sortStrategy == null)
             {
-                case "description":
-                    orders = orders.OrderBy(po => po.Description);
-                    break;
-
-                case "createdon":
-                    orders = orders.OrderBy(po => po.CreatedOn);
-                    break;
-
-                case "price":
-                    orders = orders.OrderBy(po => po.Price);
-                    break;
-
-                case "quantity":
-                    orders = orders.OrderBy(po => po.Quantity);
-                    break;
-
-                case "totalamount":
-                    orders = orders.OrderBy(po => po.TotalAmount);
-                    break;
-
-                case "status":
-                    orders = orders.OrderBy(po => po.Status);
-                    break;
-
-                default:
-                    return await orders
-                        .OrderByDescending(c => c.CreatedOn)
-                        .Skip((page - 1) * WebConstants.OrdersPerPage)
-                        .Take(WebConstants.OrdersPerPage)
-                        .To<TModel>()
-                        .ToListAsync();
+                return await orders
+                    .OrderByDescending(c => c.CreatedOn)
+                    .Skip((page - 1) * WebConstants.OrdersPerPage)
+                    .Take(WebConstants.OrdersPerPage)
+                    .To<TModel>()
+                    .ToListAsync();
             }
+
+            orders = sortStrategy.Sort(orders);
 
             return await orders
                    .Skip((page - 1) * WebConstants.OrdersPerPage)

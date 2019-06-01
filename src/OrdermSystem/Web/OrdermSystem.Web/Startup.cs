@@ -12,6 +12,7 @@
     using OrdermSystem.Data;
     using OrdermSystem.Services;
     using OrdermSystem.Services.Implementations;
+    using OrdermSystem.Services.SortHelpers;
     using OrdermSystem.Web.Infrastructure.Extensions;
 
     public class Startup
@@ -41,6 +42,7 @@
 
             services.AddRouting(options => options.LowercaseUrls = true);
 
+            services.AddSingleton<ISortStrategyParser, SortStrategyParser>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IPurchaseOrderService, PurchaseOrderService>();
 

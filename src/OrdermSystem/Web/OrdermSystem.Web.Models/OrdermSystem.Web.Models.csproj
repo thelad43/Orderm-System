@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\OrdermSystem.Common.Mapping\OrdermSystem.Common.Mapping.csproj" />
+    <ProjectReference Include="..\..\Data\OrdermSystem.Data.Models\OrdermSystem.Data.Models.csproj" />
+  </ItemGroup>
+
+</Project>
