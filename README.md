@@ -2,7 +2,8 @@
 
 [![Build status](https://ci.appveyor.com/api/projects/status/5m65mm6tnqd5ls5w?svg=true)](https://ci.appveyor.com/project/thelad43/orderm-system)
 
-\
+<br />  
+
 
 > Technical task, OneBit Software.
 
