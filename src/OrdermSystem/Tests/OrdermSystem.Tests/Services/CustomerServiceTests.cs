@@ -5,26 +5,19 @@
     using System.Threading.Tasks;
 
     using FluentAssertions;
+    using Microsoft.EntityFrameworkCore;
     using Moq;
     using Xunit;
 
     using OrdermSystem.Common;
-    using OrdermSystem.Data;
     using OrdermSystem.Data.Models;
     using OrdermSystem.Data.Models.Enums;
     using OrdermSystem.Services.Implementations;
     using OrdermSystem.Services.SortHelpers;
     using OrdermSystem.Web.Models.Customers;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
 
     public class CustomerServiceTests
     {
-        private const string FirstName = "Ivan";
-        private const string LastName = "Ivanov";
-        private const bool IsMale = true;
-        private const string PhoneNumber = "089 564 0004";
-
         public CustomerServiceTests()
         {
             Tests.Initialize();
@@ -35,10 +28,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -72,10 +64,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -111,9 +102,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
-            var serviceProviderMock = new Mock<IServiceProvider>();
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
+            var serviceProviderMock = new Mock<IServiceProvider>();
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -149,9 +140,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
-            var serviceProviderMock = new Mock<IServiceProvider>();
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
+            var serviceProviderMock = new Mock<IServiceProvider>();
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -187,10 +178,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -226,9 +216,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
-            var serviceProviderMock = new Mock<IServiceProvider>();
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
+            var serviceProviderMock = new Mock<IServiceProvider>();
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -264,10 +254,9 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            await this.SeedCustomers(100, 10, db);
+            await DbInfrastructure.SeedCustomers(100, 10, db);
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             IEnumerable<CustomerViewModel> customers;
@@ -305,10 +294,9 @@
 
             const int Customers = 150;
 
-            await this.SeedCustomers(Customers, 20, db);
+            await DbInfrastructure.SeedCustomers(Customers, 20, db);
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             var customersCount = await customerService.CountAsync();
@@ -324,22 +312,21 @@
             var db = DbInfrastructure.GetDatabase();
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
-            await customerService.CreateAsync(FirstName, LastName, IsMale, PhoneNumber);
+            await customerService.CreateAsync(Constants.FirstName, Constants.LastName, Constants.IsMale, Constants.PhoneNumber);
 
             var actualCustomer = await db.Customers.FirstOrDefaultAsync();
 
             actualCustomer
                 .Should()
-                .Match<Customer>(c => c.FirstName == FirstName)
+                .Match<Customer>(c => c.FirstName == Constants.FirstName)
                 .And
-                 .Match<Customer>(c => c.LastName == LastName)
-                 .And
-                .Match<Customer>(c => c.IsMale == IsMale)
-                 .And
-                .Match<Customer>(c => c.PhoneNumber == PhoneNumber)
+                .Match<Customer>(c => c.LastName == Constants.LastName)
+                .And
+                .Match<Customer>(c => c.IsMale == Constants.IsMale)
+                .And
+                .Match<Customer>(c => c.PhoneNumber == Constants.PhoneNumber)
                 .And
                 .Match<Customer>(c => c.Status == Status.Active);
         }
@@ -350,7 +337,6 @@
             var db = DbInfrastructure.GetDatabase();
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             Func<Task> func = async () => await customerService.DeleteAsync(Guid.NewGuid().ToString());
@@ -362,7 +348,7 @@
         }
 
         [Fact]
-        public async Task DeleteAsyncShouldDeleteCustomer()
+        public async Task DeleteAsyncShouldMarkCustomerAsDeleted()
         {
             var db = DbInfrastructure.GetDatabase();
 
@@ -380,7 +366,6 @@
             await db.SaveChangesAsync();
 
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             await customerService.DeleteAsync(customer.Id);
@@ -398,34 +383,20 @@
         {
             var db = DbInfrastructure.GetDatabase();
 
-            var customer = new Customer
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Status = Status.Active,
-                PhoneNumber = PhoneNumber,
-                IsMale = IsMale,
-                CreatedOn = DateTime.UtcNow,
-            };
-
-            await db.AddAsync(customer);
-            await db.SaveChangesAsync();
-
+            var customer = await DbInfrastructure.SeedCustomer(db);
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
-
             var actualCustomer = await customerService.GetByIdAsync<CustomerViewModel>(customer.Id);
 
             actualCustomer
                 .Should()
-                .Match<CustomerViewModel>(c => c.FirstName == FirstName)
+                .Match<CustomerViewModel>(c => c.FirstName == Constants.FirstName)
                 .And
-                .Match<CustomerViewModel>(c => c.LastName == LastName)
+                .Match<CustomerViewModel>(c => c.LastName == Constants.LastName)
                 .And
-                .Match<CustomerViewModel>(c => c.IsMale == IsMale)
+                .Match<CustomerViewModel>(c => c.IsMale == Constants.IsMale)
                 .And
-                .Match<CustomerViewModel>(c => c.PhoneNumber == PhoneNumber)
+                .Match<CustomerViewModel>(c => c.PhoneNumber == Constants.PhoneNumber)
                 .And
                 .Match<CustomerViewModel>(c => c.Status == Status.Active);
         }
@@ -434,35 +405,20 @@
         public async Task GetByIdAsyncShouldReturnCorrectCustomer()
         {
             var db = DbInfrastructure.GetDatabase();
-
-            var customer = new Customer
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Status = Status.Active,
-                PhoneNumber = PhoneNumber,
-                IsMale = IsMale,
-                CreatedOn = DateTime.UtcNow,
-            };
-
-            await db.AddAsync(customer);
-            await db.SaveChangesAsync();
-
+            var customer = await DbInfrastructure.SeedCustomer(db);
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
-
             var actualCustomer = await customerService.GetByIdAsync(customer.Id);
 
             actualCustomer
                 .Should()
-                .Match<Customer>(c => c.FirstName == FirstName)
+                .Match<Customer>(c => c.FirstName == Constants.FirstName)
                 .And
-                .Match<Customer>(c => c.LastName == LastName)
+                .Match<Customer>(c => c.LastName == Constants.LastName)
                 .And
-                .Match<Customer>(c => c.IsMale == IsMale)
+                .Match<Customer>(c => c.IsMale == Constants.IsMale)
                 .And
-                .Match<Customer>(c => c.PhoneNumber == PhoneNumber)
+                .Match<Customer>(c => c.PhoneNumber == Constants.PhoneNumber)
                 .And
                 .Match<Customer>(c => c.Status == Status.Active);
         }
@@ -471,9 +427,7 @@
         public void UpdateAsyncShouldThrowInvalidOperationExceptionIfCustomerIsNotFound()
         {
             var db = DbInfrastructure.GetDatabase();
-
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             Func<Task> func = async () => await customerService.UpdateAsync(Guid.NewGuid().ToString(), string.Empty, string.Empty, string.Empty, Status.Active);
@@ -488,22 +442,8 @@
         public async Task UpdateAsyncShouldUpdateCustomer()
         {
             var db = DbInfrastructure.GetDatabase();
-
-            var customer = new Customer
-            {
-                FirstName = FirstName,
-                LastName = LastName,
-                Status = Status.Active,
-                PhoneNumber = PhoneNumber,
-                IsMale = IsMale,
-                CreatedOn = DateTime.UtcNow,
-            };
-
-            await db.AddAsync(customer);
-            await db.SaveChangesAsync();
-
+            var customer = await DbInfrastructure.SeedCustomer(db);
             var serviceProviderMock = new Mock<IServiceProvider>();
-
             var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
 
             const string UpdatedFirstName = "Teodora";
@@ -523,39 +463,6 @@
                 .Match<Customer>(c => c.PhoneNumber == UpdatedPhoneNumer)
                 .And
                 .Match<Customer>(c => c.Status == Status.Inactive);
-        }
-
-        private async Task SeedCustomers(int customersCount, int deletedCustomers, ApplicationDbContext db)
-        {
-            var random = new Random();
-
-            for (var i = 0; i < customersCount; i++)
-            {
-                await db.AddAsync(new Customer
-                {
-                    FirstName = $"Some name {i}",
-                    LastName = $"Some last name {i}",
-                    CreatedOn = DateTime.UtcNow,
-                    IsMale = random.Next(1, 3) == 1 ? true : false,
-                    PhoneNumber = $"{i}{i}{i}",
-                    Status = (Status)random.Next(1, 3)
-                });
-            }
-
-            for (var i = 0; i < deletedCustomers; i++)
-            {
-                await db.AddAsync(new Customer
-                {
-                    FirstName = $"Some name {i}",
-                    LastName = $"Some last name {i}",
-                    CreatedOn = DateTime.UtcNow,
-                    IsMale = random.Next(1, 3) == 1 ? true : false,
-                    PhoneNumber = $"{i}{i}{i}",
-                    Status = Status.Deleted
-                });
-            }
-
-            await db.SaveChangesAsync();
         }
     }
 }
