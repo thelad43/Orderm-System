@@ -15,9 +15,16 @@
     using OrdermSystem.Services.Implementations;
     using OrdermSystem.Services.SortHelpers;
     using OrdermSystem.Web.Models.Customers;
+    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
 
     public class CustomerServiceTests
     {
+        private const string FirstName = "Ivan";
+        private const string LastName = "Ivanov";
+        private const bool IsMale = true;
+        private const string PhoneNumber = "089 564 0004";
+
         public CustomerServiceTests()
         {
             Tests.Initialize();
@@ -289,6 +296,233 @@
             customers
                 .Should()
                 .HaveCount(4);
+        }
+
+        [Fact]
+        public async Task CountAsyncShouldReturnCorrectCountOfNonDeletedCustomers()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            const int Customers = 150;
+
+            await this.SeedCustomers(Customers, 20, db);
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            var customersCount = await customerService.CountAsync();
+
+            customersCount
+                .Should()
+                .Be(Customers);
+        }
+
+        [Fact]
+        public async Task CreateAsyncShouldCreateAndSaveCustomerInDatabase()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            await customerService.CreateAsync(FirstName, LastName, IsMale, PhoneNumber);
+
+            var actualCustomer = await db.Customers.FirstOrDefaultAsync();
+
+            actualCustomer
+                .Should()
+                .Match<Customer>(c => c.FirstName == FirstName)
+                .And
+                 .Match<Customer>(c => c.LastName == LastName)
+                 .And
+                .Match<Customer>(c => c.IsMale == IsMale)
+                 .And
+                .Match<Customer>(c => c.PhoneNumber == PhoneNumber)
+                .And
+                .Match<Customer>(c => c.Status == Status.Active);
+        }
+
+        [Fact]
+        public void DeleteAsyncShouldThrowInvalidOperationExceptionIfCustomerIsNotFound()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            Func<Task> func = async () => await customerService.DeleteAsync(Guid.NewGuid().ToString());
+
+            func
+                .Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage(ExceptionMessages.CustomerNotFound);
+        }
+
+        [Fact]
+        public async Task DeleteAsyncShouldDeleteCustomer()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var customer = new Customer
+            {
+                FirstName = "Tedd",
+                LastName = "Ivanov",
+                Status = Status.Active,
+                PhoneNumber = "089 456 231",
+                IsMale = true,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            await db.AddAsync(customer);
+            await db.SaveChangesAsync();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            await customerService.DeleteAsync(customer.Id);
+
+            var actualCustomer = await db.Customers.FirstOrDefaultAsync();
+
+            actualCustomer
+                .Status
+                .Should()
+                .Be(Status.Deleted);
+        }
+
+        [Fact]
+        public async Task GetByIdAsyncShouldReturnCustomerByIdToTModel()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var customer = new Customer
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Status = Status.Active,
+                PhoneNumber = PhoneNumber,
+                IsMale = IsMale,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            await db.AddAsync(customer);
+            await db.SaveChangesAsync();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            var actualCustomer = await customerService.GetByIdAsync<CustomerViewModel>(customer.Id);
+
+            actualCustomer
+                .Should()
+                .Match<CustomerViewModel>(c => c.FirstName == FirstName)
+                .And
+                .Match<CustomerViewModel>(c => c.LastName == LastName)
+                .And
+                .Match<CustomerViewModel>(c => c.IsMale == IsMale)
+                .And
+                .Match<CustomerViewModel>(c => c.PhoneNumber == PhoneNumber)
+                .And
+                .Match<CustomerViewModel>(c => c.Status == Status.Active);
+        }
+
+        [Fact]
+        public async Task GetByIdAsyncShouldReturnCorrectCustomer()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var customer = new Customer
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Status = Status.Active,
+                PhoneNumber = PhoneNumber,
+                IsMale = IsMale,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            await db.AddAsync(customer);
+            await db.SaveChangesAsync();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            var actualCustomer = await customerService.GetByIdAsync(customer.Id);
+
+            actualCustomer
+                .Should()
+                .Match<Customer>(c => c.FirstName == FirstName)
+                .And
+                .Match<Customer>(c => c.LastName == LastName)
+                .And
+                .Match<Customer>(c => c.IsMale == IsMale)
+                .And
+                .Match<Customer>(c => c.PhoneNumber == PhoneNumber)
+                .And
+                .Match<Customer>(c => c.Status == Status.Active);
+        }
+
+        [Fact]
+        public void UpdateAsyncShouldThrowInvalidOperationExceptionIfCustomerIsNotFound()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            Func<Task> func = async () => await customerService.UpdateAsync(Guid.NewGuid().ToString(), string.Empty, string.Empty, string.Empty, Status.Active);
+
+            func
+                .Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage(ExceptionMessages.CustomerNotFound);
+        }
+
+        [Fact]
+        public async Task UpdateAsyncShouldUpdateCustomer()
+        {
+            var db = DbInfrastructure.GetDatabase();
+
+            var customer = new Customer
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Status = Status.Active,
+                PhoneNumber = PhoneNumber,
+                IsMale = IsMale,
+                CreatedOn = DateTime.UtcNow,
+            };
+
+            await db.AddAsync(customer);
+            await db.SaveChangesAsync();
+
+            var serviceProviderMock = new Mock<IServiceProvider>();
+
+            var customerService = new CustomerService(db, new SortStrategyParser(serviceProviderMock.Object));
+
+            const string UpdatedFirstName = "Teodora";
+            const string UpdatedLastName = "Ivanova";
+            const string UpdatedPhoneNumer = "08 888 555";
+
+            await customerService.UpdateAsync(customer.Id, UpdatedFirstName, UpdatedLastName, UpdatedPhoneNumer, Status.Inactive);
+
+            var actualCustomer = await db.Customers.FirstOrDefaultAsync();
+
+            actualCustomer
+                .Should()
+                .Match<Customer>(c => c.FirstName == UpdatedFirstName)
+                .And
+                .Match<Customer>(c => c.LastName == UpdatedLastName)
+                .And
+                .Match<Customer>(c => c.PhoneNumber == UpdatedPhoneNumer)
+                .And
+                .Match<Customer>(c => c.Status == Status.Inactive);
         }
 
         private async Task SeedCustomers(int customersCount, int deletedCustomers, ApplicationDbContext db)

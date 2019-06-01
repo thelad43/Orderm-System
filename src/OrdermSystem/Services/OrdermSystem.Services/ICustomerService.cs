@@ -12,8 +12,6 @@
 
         Task CreateAsync(string firstName, string lastName, bool isMale, string phoneNumber);
 
-        Task<TModel> GetByNameAsync<TModel>(string firstName);
-
         Task<TModel> GetByIdAsync<TModel>(string id);
 
         Task<Customer> GetByIdAsync(string id);

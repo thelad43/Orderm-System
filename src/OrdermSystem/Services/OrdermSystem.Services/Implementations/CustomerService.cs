@@ -91,22 +91,15 @@
 
         public async Task<TModel> GetByIdAsync<TModel>(string id)
             => await this.db
-            .Customers
-            .Where(c => c.Id == id)
-            .To<TModel>()
-            .FirstOrDefaultAsync();
+                .Customers
+                .Where(c => c.Id == id)
+                .To<TModel>()
+                .FirstOrDefaultAsync();
 
         public async Task<Customer> GetByIdAsync(string id)
             => await this.db
                 .Customers
                 .FirstOrDefaultAsync(c => c.Id == id);
-
-        public async Task<TModel> GetByNameAsync<TModel>(string firstName)
-            => await this.db
-                .Customers
-                .Where(c => c.FirstName.ToLower().Contains(firstName.ToLower()))
-                .To<TModel>()
-                .FirstOrDefaultAsync();
 
         public async Task UpdateAsync(string id, string firstName, string lastName, string phoneNumber, Status status)
         {
